@@ -33,7 +33,6 @@
     background: var(--bg);
     color: var(--ink);
     -webkit-font-smoothing: antialiased;
-    padding-top: env(safe-area-inset-top);
   }
 
   .header {
@@ -122,7 +121,10 @@
   .section-title h2 { font-size: 15px; font-weight: 800; margin: 0; letter-spacing: -0.01em; }
   .section-title .count { font-size: 12px; color: var(--ink-soft); font-weight: 600; }
 
-  .card {
+  a.card {
+    display: block;
+    color: inherit;
+    text-decoration: none;
     position: relative;
     background: #ffffff;
     border: 1px solid var(--line);
@@ -132,17 +134,19 @@
     box-shadow: 0 1px 2px rgba(20,21,26,.04);
     transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
     overflow: hidden;
+    cursor: pointer;
   }
-  .card::before {
+  a.card::before {
     content: "";
     position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
     background: var(--accent, var(--ink));
   }
-  .card:hover {
+  a.card:hover {
     box-shadow: 0 10px 24px rgba(20,21,26,.08);
     transform: translateY(-1px);
     border-color: #dedee6;
   }
+  a.card:hover .card-title { text-decoration: underline; }
   .card-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
   .card-icon {
     flex: none;
@@ -161,7 +165,7 @@
     margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line);
     font-size: 12px; color: var(--ink-soft);
   }
-  .card-footer .src { font-weight: 600; color: #4a4b53; }
+  .card-footer .src { display: flex; align-items: center; gap: 5px; font-weight: 600; color: #4a4b53; }
   .badge {
     font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
     background: var(--accent-bg); color: var(--accent);
@@ -186,7 +190,7 @@
       <h1>Briefing diario</h1>
       <div class="sub">Geopolítica · Salud · Tecnología · IA · Espacio · Finanzas — noticias contrastadas, sin ruido</div>
     </div>
-    <div class="date-pill"><span class="dot"></span>Actualizado · 10 de julio de 2026</div>
+    <div class="date-pill"><span class="dot"></span>Actualizado · 10 de julio de 2026, 17:31</div>
   </div>
 </div>
 
@@ -221,65 +225,70 @@
 <div class="section geo active" id="geo">
   <div class="section-title"><h2>Geopolítica</h2><span class="count">5 noticias</span></div>
 
-  <div class="card">
+  <a class="card" href="https://cnnespanol.cnn.com/2026/07/09/mundo/live-news/nuevos-ataques-iran-eeuu-vivo-trax" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div>
       <div class="card-title">Trump da por roto el alto el fuego y EE.UU. e Irán reanudan los ataques en el golfo Pérsico</div>
     </div>
     <div class="card-body">
-      <p>El presidente Trump anunció el 8 de julio el fin de la tregua con Irán, tras un ataque de Teherán contra aliados de Washington en la región y bombardeos estadounidenses sobre el perímetro de una planta nuclear iraní. El Comando Central de EE.UU. afirma haber golpeado objetivos iraníes 170 veces en dos días, mientras Irán amenaza con cobrar peaje a los buques que cruzan el estrecho de Ormuz.</p>
-      <p><span class="label">Por qué importa: </span>la escalada devuelve a la región a una guerra abierta meses después de los ataques de febrero y convierte Ormuz en el punto más peligroso del sistema energético mundial. Si el bloqueo se prolonga, el precio del petróleo y el transporte marítimo se presionarán al alza, con efecto directo sobre la inflación en Europa y España.</p>
+      <p>El presidente Trump anunció el 8 de julio el fin de la tregua con Irán, después de que Teherán atacara a aliados de Washington en la región horas antes del entierro del líder supremo Ali Jamenei, y de que la aviación estadounidense bombardeara el perímetro de una planta nuclear iraní. El Comando Central de EE.UU. afirma haber golpeado objetivos iraníes hasta 170 veces en dos días.</p>
+      <p>La disputa se ha extendido al propio estrecho de Ormuz: Irán ha anunciado su intención de cobrar peaje a los buques que transitan por la ruta, algo que no hacía antes de los ataques israelí-estadounidenses del 28 de febrero que desencadenaron la actual escalada. El tránsito marítimo por el estrecho ha vuelto a caer con fuerza tras los ataques contra varias embarcaciones comerciales, revirtiendo la recuperación iniciada durante el alto el fuego.</p>
+      <p><span class="label">Por qué importa: </span>la escalada devuelve la región a una guerra abierta meses después de los ataques de febrero y convierte Ormuz en el punto más peligroso del sistema energético mundial. Si el bloqueo se prolonga, el precio del crudo y el coste del transporte marítimo se presionarán al alza, con efecto directo sobre la inflación en Europa y España.</p>
     </div>
-    <div class="card-footer"><span class="badge">Internacional</span><span>Fuente: Bloomberg / CNN</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Internacional</span><span class="src">Bloomberg / CNN ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.moncloa.com/2026/07/07/amenaza-trump-bases-rota-moron-3396152/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div>
       <div class="card-title">Trump amenaza con retirar tropas de las bases de Rota y Morón por el veto español a la guerra con Irán</div>
     </div>
     <div class="card-body">
-      <p>La negativa del Gobierno español a que EE.UU. usara las bases de Rota y Morón en sus operaciones contra Irán ha abierto una crisis diplomática. Trump ha calificado a España de "inútil" y "pésimo socio" de la OTAN, y amenaza con romper relaciones comerciales si Madrid no eleva su gasto en defensa al 5% del PIB.</p>
-      <p><span class="label">Por qué importa: </span>un repliegue estadounidense pondría en riesgo más de 8.000 empleos directos en Andalucía y unos 279 millones de euros anuales, y tensiona el acuerdo bilateral de 1953. Es una muestra de que Washington empieza a tratar la presencia militar en sus aliados como algo condicionado, no automático.</p>
+      <p>El detonante de la crisis fue la negativa del Gobierno español a permitir que las bases de Rota (Cádiz) y Morón (Sevilla) se usaran en las operaciones militares de EE.UU. contra Irán. Trump ha calificado a España de socio "inútil" y "pésimo" dentro de la OTAN, y durante la cumbre de la Alianza amenazó con romper todas las relaciones comerciales con el país si no cambia de postura.</p>
+      <p>A la disputa por las bases se suma la exigencia de Washington de que todos los aliados eleven el gasto en defensa hasta el 5% del PIB, muy por encima del entorno del 2% en el que se mueve España. Las bases no son propiedad de EE.UU. ni de la OTAN, sino de España, y su uso compartido se rige por acuerdos bilaterales que arrancan en 1953; cualquier operación militar desde ellas requiere autorización expresa española.</p>
+      <p><span class="label">Por qué importa: </span>un repliegue estadounidense pondría en juego más de 8.000 empleos directos entre Rota y Morón y unos 279 millones de euros de inyección económica anual. Es una muestra de que Washington empieza a tratar la presencia militar en sus aliados como una transacción condicionada al alineamiento político, no como un compromiso automático.</p>
     </div>
-    <div class="card-footer"><span class="badge">España</span><span>Fuente: Moncloa.com / Atalayar</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">España</span><span class="src">Moncloa.com ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://cnnespanol.cnn.com/2026/07/06/venezuela/cifra-muertos-terremotos-venezuela-orix" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div>
       <div class="card-title">El terremoto de Venezuela supera los 3.800 muertos y sigue sin cifra definitiva</div>
     </div>
     <div class="card-body">
-      <p>Los seísmos de magnitud 7.5 y 7.2 del 24 de junio han dejado ya más de 3.800 fallecidos, cerca de 17.000 heridos y más de 17.800 desplazados, según las últimas cifras oficiales. Las zonas costeras como La Guaira concentran los mayores daños.</p>
-      <p><span class="label">Por qué importa: </span>es uno de los desastres naturales más letales de la región en décadas. La reconstrucción llega en un momento de fragilidad institucional del país, lo que complica la respuesta humanitaria y abre debate sobre su capacidad de gestionar la crisis sin ayuda internacional sostenida.</p>
+      <p>Dos seísmos consecutivos de magnitud 7.5 y 7.2 sacudieron Venezuela el 24 de junio, con especial impacto en zonas costeras como La Guaira. Según el último balance oficial compartido por el presidente de la Asamblea Nacional, Jorge Rodríguez, la cifra de fallecidos ha superado ya los 3.800, con más de 16.700 heridos y cerca de 17.900 desplazados.</p>
+      <p>Las autoridades venezolanas reconocen que el balance sigue siendo provisional casi tres semanas después de la catástrofe, a medida que continúan las labores de rescate y se despejan escombros en las zonas más golpeadas. La reconstrucción llega en un contexto de fragilidad institucional que ha dificultado tanto la coordinación de la ayuda internacional como la elaboración de un censo fiable de víctimas.</p>
+      <p><span class="label">Por qué importa: </span>es uno de los desastres naturales más letales que ha vivido la región en décadas. La magnitud de la tragedia y las dudas sobre la capacidad del Estado venezolano para gestionarla en solitario han reabierto el debate sobre si la comunidad internacional debe intervenir con más ayuda humanitaria sostenida.</p>
     </div>
-    <div class="card-footer"><span class="badge">Latinoamérica</span><span>Fuente: CNN</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Latinoamérica</span><span class="src">CNN ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://legrandcontinent.eu/es/2026/07/07/trump-amenaza-de-nuevo-groenlandia/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div>
       <div class="card-title">Trump reabre el pulso por Groenlandia y amenaza con retirar todas las tropas de Europa</div>
     </div>
     <div class="card-body">
-      <p>En la cumbre de la OTAN en Ankara, Trump insistió el 7 de julio en que "Groenlandia debe estar bajo control de Estados Unidos, y no de Dinamarca", alegando que está "rodeada de buques chinos y rusos". Washington plantea modificar el acuerdo militar de 1951 para estacionar tropas indefinidamente. Dinamarca respondió que la isla "no está en venta".</p>
-      <p><span class="label">Por qué importa: </span>usar la retirada de tropas de Europa como palanca de presión desestabiliza el pilar de seguridad de la OTAN desde la Guerra Fría, y obliga a los aliados europeos a plantearse una defensa propia menos dependiente de EE.UU.</p>
+      <p>En la cumbre de la OTAN celebrada en Ankara, Trump insistió el 7 de julio en que Groenlandia "debe estar bajo el control de Estados Unidos, y no de Dinamarca", argumentando que la isla está rodeada de buques chinos y rusos y que Copenhague no invierte lo suficiente en su desarrollo. La Casa Blanca ha planteado modificar el acuerdo militar de 1951 para estacionar tropas de forma indefinida y obtener derecho de veto sobre la inversión extranjera en el territorio.</p>
+      <p>La primera ministra danesa, Mette Frederiksen, respondió que Groenlandia "no está en venta" y que Copenhague defenderá cada palmo de su territorio. Trump vinculó explícitamente esta demanda a la seguridad europea, advirtiendo de que si no se acepta su planteamiento sobre la isla, EE.UU. podría retirar a todos sus soldados desplegados en Europa.</p>
+      <p><span class="label">Por qué importa: </span>usar la retirada de tropas de Europa como palanca de presión sobre un asunto ajeno a la defensa continental desestabiliza el pilar de seguridad que ha sostenido la OTAN desde la Guerra Fría, y obliga a los aliados europeos a acelerar sus planes de una defensa propia menos dependiente de Washington.</p>
     </div>
-    <div class="card-footer"><span class="badge">Europa</span><span>Fuente: El Grand Continent / El Español</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Europa</span><span class="src">El Grand Continent ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://kyivindependent.com/russian-attacks-across-ukraine-kill-at-least-9-injure-at-least-77-amid-deadly-donetsk-oblast-strike/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div>
-      <div class="card-title">Rusia y Ucrania mantienen una escalada de ataques con drones pese a las negociaciones</div>
+      <div class="card-title">Ataques rusos dejan al menos 9 muertos y 77 heridos en un solo día en Ucrania</div>
     </div>
     <div class="card-body">
-      <p>Entre el 9 y el 10 de julio, las fuerzas rusas atacaron objetivos en Donbás, Sumy, Kharkiv, Zaporiyia y Jersón, mientras la defensa antiaérea rusa interceptó 376 drones ucranianos sobre Bélgorod y Briansk en una sola noche.</p>
-      <p><span class="label">Por qué importa: </span>la intensidad de los ataques mutuos confirma que, más allá de los anuncios diplomáticos puntuales, ninguna parte ha reducido su capacidad ofensiva real, lo que aleja un alto el fuego duradero y mantiene la presión sobre la seguridad energética de Europa del Este.</p>
+      <p>Las fuerzas aeroespaciales y de misiles rusas atacaron objetivos en Donbás, Sumy, Járkiv, Zaporiyia, Dnipropetrovsk y Jersón el 9 y 10 de julio, dejando al menos nueve muertos y 77 heridos en todo el país, según las autoridades regionales ucranianas.</p>
+      <p>El reparto por regiones muestra la dispersión del castigo: en Donetsk murieron tres civiles y hubo diez heridos tras 43 bombardeos sobre distintas localidades; en Járkiv murió una persona y once resultaron heridas, entre ellas un menor; y en Sumy murió una persona y otras nueve resultaron heridas en más de treinta ataques sobre veinticuatro localidades de la región.</p>
+      <p><span class="label">Por qué importa: </span>la magnitud y dispersión geográfica de los ataques -seis regiones distintas en 48 horas- confirma que, más allá de los anuncios diplomáticos puntuales, Rusia no ha reducido su capacidad ofensiva real, lo que aleja la perspectiva de un alto el fuego duradero.</p>
     </div>
-    <div class="card-footer"><span class="badge">Europa del Este</span><span>Fuente: Ukrinform</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Europa del Este</span><span class="src">Kyiv Independent ↗</span></div>
+  </a>
 
 </div>
 
@@ -287,65 +296,70 @@
 <div class="section salud" id="salud">
   <div class="section-title"><h2>Salud</h2><span class="count">5 noticias</span></div>
 
-  <div class="card">
+  <a class="card" href="https://www.agenciasinc.es/Noticias/Si-no-se-toman-medidas-los-nuevos-casos-de-cancer-se-duplicaran-en-2050-segun-la-OMS" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-9C.8 8.1 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.1 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg></div>
       <div class="card-title">La OMS advierte que los casos de cáncer podrían llegar a 35 millones al año en 2050</div>
     </div>
     <div class="card-body">
-      <p>Según la Agencia Internacional de Investigación sobre el Cáncer (IARC/OMS), citada por Agencia SINC el 9 de julio, el cáncer se cobra ya más de 26.000 vidas al día, con 20,6 millones de nuevos casos anuales. Sin medidas de prevención adicionales, la cifra podría acercarse a los 35 millones en 2050.</p>
-      <p><span class="label">Por qué importa: </span>el aumento se explica por el envejecimiento poblacional y factores de riesgo evitables (tabaco, alcohol, obesidad, contaminación), lo que sitúa la prevención como la palanca más eficaz para contener el impacto sanitario y económico de la enfermedad.</p>
+      <p>El Informe Mundial sobre el Cáncer 2026 de la OMS, elaborado junto con la Agencia Internacional de Investigación sobre el Cáncer (IARC), advierte de que los casos anuales podrían pasar de los 20,6 millones actuales a casi 35 millones en 2050 si no se toman medidas adicionales, un incremento del 70%. El cáncer se cobra ya más de 26.000 vidas al día en todo el mundo.</p>
+      <p>El informe subraya desigualdades persistentes en el acceso a prevención, diagnóstico, tratamiento y cuidados paliativos, especialmente en países de renta baja y media, y señala que el perfil de la enfermedad está cambiando, cada vez más asociado a la obesidad, el sedentarismo, la dieta poco saludable y la contaminación del aire. Como dato positivo, destaca que el consumo de tabaco ha caído un 27% desde 2010, lo que ya reduce los casos de cáncer de pulmón en algunas regiones.</p>
+      <p><span class="label">Por qué importa: </span>el aumento previsto no es solo una cuestión médica sino de justicia sanitaria global: sin inversión en prevención y acceso equitativo al tratamiento, el peso de la enfermedad crecerá de forma desproporcionada en los países con sistemas de salud más débiles.</p>
     </div>
-    <div class="card-footer"><span class="badge">Global</span><span>Fuente: Agencia SINC</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Global</span><span class="src">Agencia SINC ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://theconversation.com/las-bajas-laborales-un-termometro-de-la-salud-de-las-empresas-287136" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-9C.8 8.1 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.1 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg></div>
       <div class="card-title">España registra cifras históricas de bajas laborales por motivos de salud</div>
     </div>
     <div class="card-body">
-      <p>The Conversation analiza, en un artículo del 10 de julio, cómo España encadena máximos históricos de incapacidad temporal. El envejecimiento de la población activa, el aumento de problemas de salud mental, las enfermedades musculoesqueléticas y los retrasos en la atención sanitaria explican buena parte del fenómeno.</p>
-      <p><span class="label">Por qué importa: </span>el artículo cuestiona el relato que atribuye el aumento al fraude o a la actitud individual, y plantea las bajas laborales como termómetro de la salud del sistema sanitario y del mercado de trabajo, con implicaciones para la Seguridad Social.</p>
+      <p>Un análisis publicado en The Conversation el 10 de julio constata que España encadena máximos históricos de incapacidad temporal, y rechaza la explicación simplista de que el aumento se deba al fraude o a la actitud individual de los trabajadores.</p>
+      <p>Entre los factores que explican el fenómeno, el análisis destaca el envejecimiento de la población activa, el incremento de los problemas de salud mental diagnosticados, el peso creciente de las enfermedades musculoesqueléticas y los retrasos en la atención sanitaria pública, que alargan los procesos de baja al demorar diagnósticos y tratamientos.</p>
+      <p><span class="label">Por qué importa: </span>el artículo plantea las bajas laborales como un termómetro de la salud del sistema sanitario y del mercado de trabajo en su conjunto, con implicaciones directas para la sostenibilidad financiera de la Seguridad Social a medio plazo.</p>
     </div>
-    <div class="card-footer"><span class="badge">España</span><span>Fuente: The Conversation</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">España</span><span class="src">The Conversation ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.sciencedaily.com/releases/2026/06/260623014026.htm" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-9C.8 8.1 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.1 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg></div>
       <div class="card-title">Identifican el interruptor molecular que explica por qué el ejercicio rejuvenece los músculos</div>
     </div>
     <div class="card-body">
-      <p>Un equipo del Duke-NUS Medical School (Singapur), con Cardiff University, ha identificado el gen DEAF1 como mecanismo clave: sus niveles aumentan con la edad y alteran la reparación muscular, mientras que el ejercicio los reduce y restaura el equilibrio celular. Publicado en julio en PNAS.</p>
-      <p><span class="label">Por qué importa: </span>ofrece una explicación molecular concreta de por qué la actividad física mantiene la fuerza en la vejez, y abre la puerta a terapias dirigidas a DEAF1 para personas que no pueden hacer ejercicio, en sociedades cada vez más envejecidas.</p>
+      <p>Un equipo del Duke-NUS Medical School de Singapur, con Cardiff University y Singapore General Hospital, ha identificado el gen DEAF1 como pieza clave del envejecimiento muscular. Sus niveles aumentan con la edad y alteran el equilibrio entre producción y eliminación de proteínas dentro de las células, dificultando la reparación del tejido. El hallazgo se publicó en julio en PNAS.</p>
+      <p>Según el estudio, la actividad física reduce los niveles de DEAF1 y restaura ese equilibrio interno, lo que permite a los músculos envejecidos eliminar daño acumulado, repararse y mantener su fuerza. Es la primera vez que se identifica un mecanismo molecular tan concreto para un efecto que hasta ahora se conocía solo de forma general.</p>
+      <p><span class="label">Por qué importa: </span>más allá de confirmar que el ejercicio es bueno para la vejez, el hallazgo abre la puerta a terapias farmacológicas dirigidas a DEAF1 para personas que no pueden hacer ejercicio físico, en sociedades cada vez más envejecidas.</p>
     </div>
-    <div class="card-footer"><span class="badge">Investigación</span><span>Fuente: ScienceDaily / PNAS</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Investigación</span><span class="src">ScienceDaily / PNAS ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.sciencedaily.com/releases/2026/06/260623014007.htm" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-9C.8 8.1 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.1 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg></div>
       <div class="card-title">Descubren por qué el cáncer colorrectal se vuelve letal al perder una proteína clave</div>
     </div>
     <div class="card-body">
-      <p>Investigadores de Weill Cornell Medicine y el MIT han descubierto que la pérdida de la proteína GATA6 empuja a las células del cáncer colorrectal a un estado "similar al fetal" que facilita su propagación al hígado. Publicado el 22 de junio en Cell Stem Cell.</p>
-      <p><span class="label">Por qué importa: </span>sugiere que la metástasis no depende solo de mutaciones genéticas sino de cambios de identidad celular, y abre una vía terapéutica: restaurar GATA6 podría frenar la propagación y mejorar el pronóstico de los casos más agresivos.</p>
+      <p>Investigadores de Weill Cornell Medicine y el MIT han descubierto que la pérdida de la proteína GATA6 empuja a las células del cáncer colorrectal hacia un estado de gran plasticidad, similar al de células fetales, que facilita su propagación al hígado. El estudio se publicó el 22 de junio en Cell Stem Cell.</p>
+      <p>GATA6 actúa normalmente como un factor de transcripción que mantiene la identidad de las células intestinales. Cuando desaparece, las células tumorales cambian de identidad y comportamiento -lo que los investigadores llaman plasticidad de linaje- y adquieren capacidad de viajar por el torrente sanguíneo y colonizar otros órganos; sus niveles son sustancialmente más bajos en las metástasis hepáticas que en los tumores primarios.</p>
+      <p><span class="label">Por qué importa: </span>sugiere que la metástasis no depende solo de mutaciones genéticas, sino de cambios reversibles en la identidad celular, y abre una vía terapéutica: restaurar GATA6 podría frenar la propagación y mejorar el pronóstico de los casos más agresivos.</p>
     </div>
-    <div class="card-footer"><span class="badge">Investigación</span><span>Fuente: ScienceDaily / Cell Stem Cell</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Investigación</span><span class="src">ScienceDaily / Cell Stem Cell ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.reading.ac.uk/news/2026/Research-News/Takeaways-have-more-salt-than-labels-claim" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-9C.8 8.1 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.1 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg></div>
       <div class="card-title">Casi la mitad de las comidas para llevar analizadas contienen más sal de la que anuncian</div>
     </div>
     <div class="card-body">
-      <p>Un estudio de la Universidad de Reading (Reino Unido) que analizó 39 platos de 23 restaurantes encontró que el 47% de las comidas para llevar superaba la sal declarada en el menú. Los platos de pasta fueron los más salados, con una media de 7,2 g por ración.</p>
-      <p><span class="label">Por qué importa: </span>con el límite diario recomendado en 6 g, el hallazgo evidencia un problema de transparencia en el etiquetado que dificulta controlar la ingesta de sodio, factor de riesgo directo para la hipertensión y las enfermedades cardiovasculares.</p>
+      <p>Un estudio de la Universidad de Reading (Reino Unido) analizó 39 platos comprados en 23 restaurantes de comida para llevar y encontró que el 47% superaba la sal declarada en el menú. Los platos de pasta resultaron los más salados, con una media de 7,2 gramos por ración, más de la ingesta diaria recomendada en un solo plato.</p>
+      <p>Los platos de curry mostraron la mayor variación, entre 2,3 y 9,4 gramos según el establecimiento, mientras que el pescado y las patatas fritas tradicionales resultaron los más bajos en sodio, en parte porque la sal solo se añade tras cocinar y a petición del cliente. Algunos platos de restaurantes independientes llegaron a superar los 10 gramos de sal en una sola ración.</p>
+      <p><span class="label">Por qué importa: </span>con el límite diario recomendado en el Reino Unido fijado en 6 gramos, el hallazgo evidencia un problema de transparencia en el etiquetado que dificulta controlar la ingesta de sodio, factor de riesgo directo para la hipertensión y las enfermedades cardiovasculares.</p>
     </div>
-    <div class="card-footer"><span class="badge">Reino Unido</span><span>Fuente: University of Reading / ScienceDaily</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Reino Unido</span><span class="src">University of Reading ↗</span></div>
+  </a>
 
 </div>
 
@@ -353,65 +367,70 @@
 <div class="section tech" id="tech">
   <div class="section-title"><h2>Tecnología</h2><span class="count">5 noticias</span></div>
 
-  <div class="card">
+  <a class="card" href="https://www.technologyreview.com/2026/06/01/1138133/china-world-first-brain-chip/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
       <div class="card-title">China aprueba el primer chip cerebral invasivo del mundo para uso comercial</div>
     </div>
     <div class="card-body">
-      <p>El regulador chino (NMPA) ha aprobado el dispositivo NEO, de Neuracle Technology y la Universidad Tsinghua, para pacientes con parálisis parcial por lesión medular. Sus ocho sensores se colocan sobre la duramadre, sin penetrar el córtex, y en ensayos clínicos ha permitido a los pacientes recuperar la capacidad de sujetar objetos.</p>
-      <p><span class="label">Por qué importa: </span>es la primera interfaz cerebro-máquina invasiva del mundo en superar la aprobación de un regulador nacional para uso más allá de ensayos clínicos, adelantando a EE.UU. (donde la FDA tarda años) y consolidando a China como referente en neurotecnología.</p>
+      <p>La autoridad reguladora china (NMPA) concedió el 1 de junio la aprobación comercial al dispositivo NEO, desarrollado por Neuracle Technology junto con la Universidad Tsinghua, destinado a pacientes con parálisis parcial por lesión medular. Sus ocho sensores se colocan sobre la duramadre, la membrana que protege el cerebro, sin necesidad de penetrar el córtex.</p>
+      <p>En los ensayos clínicos, el dispositivo ha permitido a los pacientes mejorar su capacidad de sujetar y manipular objetos con las manos. Es la primera interfaz cerebro-máquina invasiva del mundo en obtener autorización de un regulador nacional para su uso más allá de ensayos clínicos: el respaldo del Gobierno chino a esta industria ha permitido una vía regulatoria acelerada, mientras procesos equivalentes ante la FDA estadounidense pueden tardar varios años.</p>
+      <p><span class="label">Por qué importa: </span>el hito sitúa a China por delante de EE.UU. -donde compañías como Neuralink siguen en fase de ensayos- en la carrera por comercializar la neurotecnología, y consolida al país asiático como referente regulatorio en un campo que hasta ahora dominaban casi en exclusiva empresas occidentales.</p>
     </div>
-    <div class="card-footer"><span class="badge">Neurotecnología</span><span>Fuente: MIT Technology Review</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Neurotecnología</span><span class="src">MIT Technology Review ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.infobae.com/tecno/2026/07/06/microsoft-despide-a-4800-empleados-y-xbox-se-lleva-la-peor-parte-reestructuracion-con-ia/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
-      <div class="card-title">Microsoft despedirá a 4.800 empleados y vacía Xbox de estudios propios</div>
+      <div class="card-title">Microsoft amplía sus despidos a 4.800 empleados, con Xbox como división más golpeada</div>
     </div>
     <div class="card-body">
-      <p>Microsoft ha anunciado el despido de 4.800 personas, en una reestructuración que incluye el vaciado progresivo de los estudios internos de desarrollo de Xbox.</p>
-      <p><span class="label">Por qué importa: </span>confirma el giro de Microsoft hacia un modelo de gaming menos dependiente de estudios propios y más orientado a plataforma y servicios (Game Pass, nube), a costa de su capacidad interna de creación de contenido first-party.</p>
+      <p>Microsoft ha ampliado su ronda de despidos hasta las 4.800 personas -en torno al 2,1% de su plantilla global-, con Xbox como la división más afectada: unos 3.200 puestos corresponden solo a la parte de videojuegos, la mitad ya efectivos el mismo día del anuncio.</p>
+      <p>La reestructuración se ha traducido en el desmantelamiento de varios estudios propios: Compulsion Games y Double Fine Productions vuelven a ser independientes, Ninja Theory y Undead Labs han sido vendidos para centrarse en sus proyectos, y Arkane Studios ha iniciado consultas sindicales en Francia sobre su futuro. El nuevo consejero delegado de Xbox defiende que la división seguirá recibiendo inversión, aunque "más estratégica y disciplinada".</p>
+      <p><span class="label">Por qué importa: </span>confirma el giro de Microsoft hacia un modelo de gaming menos dependiente de estudios propios y más orientado a plataforma y servicios, redirigiendo recursos hacia la inteligencia artificial a costa de su capacidad interna de creación de contenido first-party.</p>
     </div>
-    <div class="card-footer"><span class="badge">Empresas</span><span>Fuente: Xataka</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Empresas</span><span class="src">Infobae ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.elespanol.com/omicrono/hardware/20260706/iphone-ultra-apple-disponibilidad-limitada-sobreprecio-mercado-segunda-mano/1003744311133_0.html" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
       <div class="card-title">El iPhone Ultra, el primer plegable de Apple, llegará con disponibilidad muy limitada</div>
     </div>
     <div class="card-body">
-      <p>Apple lanzará su primer iPhone plegable, el iPhone Ultra, en el tercer trimestre de 2026, con una producción inicial de solo entre 500.000 y un millón de unidades.</p>
-      <p><span class="label">Por qué importa: </span>la escasez deliberada apunta a problemas de fabricación en la bisagra plegable o a una estrategia de lanzamiento premium controlada, similar a la de otros plegables de la competencia en sus primeras generaciones.</p>
+      <p>Según el analista Ming-Chi Kuo, referencia habitual sobre la cadena de suministro de Apple, el iPhone Ultra -el primer plegable de la compañía- se anunciará en septiembre de 2026 junto al resto de la gama, pero no llegará a las tiendas hasta el cuarto trimestre, con una producción inicial de entre 500.000 y un millón de unidades.</p>
+      <p>El dispositivo combinará una pantalla exterior de 5,5 pulgadas con un panel interior plegable de 7,8 pulgadas, de tamaño comparable a un iPad mini, con un precio de partida que rondaría los 2.300-2.500 dólares. La combinación de alta demanda esperada y stock reducido es terreno fértil para la reventa, con márgenes que podrían duplicar el precio oficial en el mercado de segunda mano.</p>
+      <p><span class="label">Por qué importa: </span>la escasez deliberada apunta a las dificultades de fabricación que sigue planteando la bisagra plegable a gran escala, y repite la estrategia que Apple ya usó con el iPhone X: lanzar en cantidades limitadas para gestionar el riesgo antes de escalar producción.</p>
     </div>
-    <div class="card-footer"><span class="badge">Hardware</span><span>Fuente: Xataka</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Hardware</span><span class="src">El Español ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.xataka.com/robotica-e-ia/modelo-ia-qwen-alibaba-nueva-joya-corona-unico-problema-que-no-ganan-dinero" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
-      <div class="card-title">EE.UU. y China empiezan a tratar sus modelos de IA más avanzados como activos estratégicos de Estado</div>
+      <div class="card-title">El modelo chino Qwen, de Alibaba, conquista el mundo pero no genera beneficios para su creador</div>
     </div>
     <div class="card-body">
-      <p>Ambas potencias han empezado a restringir y proteger sus modelos de IA más punteros como si fueran tecnología de seguridad nacional, mientras modelos como Qwen (Alibaba) ganan relevancia global sin generar aún beneficios significativos para sus creadores.</p>
-      <p><span class="label">Por qué importa: </span>la carrera por la IA se desplaza de lo comercial a lo geopolítico: controlar el modelo más avanzado empieza a valer, para los gobiernos, tanto como controlar tecnología militar o energética, anticipando más restricciones a la exportación y colaboración científica.</p>
+      <p>Los modelos abiertos de la familia Qwen, de Alibaba, han superado ya los 700 millones de descargas en Hugging Face, consolidándose como pieza central de la estrategia china de IA. A diferencia de EE.UU., que construye experiencias premium de pago, China crea un ecosistema abierto que cualquiera puede descargar y ejecutar en local sin depender de APIs de pago.</p>
+      <p>El problema, señalan los analistas, es que ese éxito de adopción no se traduce en ingresos claros para Alibaba. En paralelo, las autoridades chinas han mantenido reuniones con las grandes tecnológicas del país para estudiar posibles restricciones al acceso exterior a sus modelos más avanzados, siguiendo el precedente de los controles a la exportación que EE.UU. ya aplica a su propia tecnología de IA.</p>
+      <p><span class="label">Por qué importa: </span>la carrera de la IA se desplaza de lo comercial a lo geopolítico: controlar quién accede al modelo más avanzado empieza a valer, para los gobiernos, tanto como controlar tecnología militar o energética.</p>
     </div>
-    <div class="card-footer"><span class="badge">Inteligencia Artificial</span><span>Fuente: Xataka</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Inteligencia Artificial</span><span class="src">Xataka ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://techcrunch.com/2026/07/05/amazon-will-stop-accepting-new-customers-for-mechanical-turk/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
       <div class="card-title">Amazon cierra Mechanical Turk a nuevos clientes tras 21 años de actividad</div>
     </div>
     <div class="card-body">
-      <p>Amazon ha anunciado que Mechanical Turk, su plataforma de microtareas lanzada en 2005, dejará de aceptar nuevos clientes a partir del 30 de julio de 2026.</p>
-      <p><span class="label">Por qué importa: </span>simboliza el ocaso del modelo de "trabajo humano bajo demanda" tal y como se concibió hace dos décadas, justo cuando buena parte de esas microtareas (etiquetado de datos, moderación, transcripción) están siendo absorbidas por sistemas de IA generativa.</p>
+      <p>Amazon Web Services ha confirmado que Mechanical Turk, su plataforma de microtareas lanzada en 2005, dejará de aceptar nuevos clientes a partir del 30 de julio de 2026. Quienes ya la usan podrán seguir operando con normalidad después de esa fecha.</p>
+      <p>La plataforma seguirá recibiendo actualizaciones de seguridad y disponibilidad, pero no incorporará nuevas funciones: entra en pura fase de mantenimiento. Amazon empuja a los nuevos clientes hacia Amazon SageMaker Ground Truth, su servicio más reciente de etiquetado de datos. Mechanical Turk llevaba años debilitándose por la baja calidad de algunas tareas, la presencia de bots y fraude, y una confianza deteriorada entre clientes y trabajadores.</p>
+      <p><span class="label">Por qué importa: </span>simboliza el ocaso del "trabajo humano bajo demanda" tal y como se concibió hace dos décadas, justo cuando esas microtareas están siendo absorbidas por sistemas de IA generativa que Mechanical Turk, irónicamente, ayudó a entrenar.</p>
     </div>
-    <div class="card-footer"><span class="badge">Plataformas</span><span>Fuente: Xataka</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Plataformas</span><span class="src">TechCrunch ↗</span></div>
+  </a>
 
 </div>
 
@@ -419,65 +438,70 @@
 <div class="section ia" id="ia">
   <div class="section-title"><h2>Inteligencia Artificial</h2><span class="count">5 noticias</span></div>
 
-  <div class="card">
+  <a class="card" href="https://www.anthropic.com/news/claude-sonnet-5" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
       <div class="card-title">Anthropic lanza Claude Sonnet 5 con precios introductorios y foco en investigación científica</div>
     </div>
     <div class="card-body">
-      <p>Anthropic presentó Claude Sonnet 5, con mejoras en codificación, depuración y ejecución de tareas en varios pasos, a un precio introductorio de 2$ por millón de tokens de entrada y 10$ de salida hasta el 31 de agosto de 2026. En paralelo lanzó Claude Science, un banco con más de 60 herramientas preconfiguradas para investigadores, junto a un programa interno de descubrimiento de fármacos para enfermedades desatendidas.</p>
-      <p><span class="label">Por qué importa: </span>la competencia entre grandes modelos ya no se libra solo en capacidad general, sino en aplicaciones verticales (ciencia, medicina) que pueden acelerar investigación real más allá del chatbot genérico.</p>
+      <p>Anthropic presentó el 30 de junio Claude Sonnet 5, con mejoras en codificación, depuración y ejecución de tareas en varios pasos, a un precio introductorio de 2 dólares por millón de tokens de entrada y 10 dólares de salida hasta el 31 de agosto de 2026; después pasará a un precio estándar de 3 y 15 dólares.</p>
+      <p>En paralelo, Anthropic presentó Claude Science, un banco de más de 60 herramientas preconfiguradas para investigadores, y anunció un programa interno de descubrimiento de fármacos orientado a enfermedades desatendidas por la industria farmacéutica tradicional.</p>
+      <p><span class="label">Por qué importa: </span>la competencia entre grandes modelos ya no se libra solo en capacidad general, sino en aplicaciones verticales -ciencia, medicina, agentes de codificación- que pueden acelerar investigación real más allá del chatbot genérico.</p>
     </div>
-    <div class="card-footer"><span class="badge">Modelos</span><span>Fuente: cobertura especializada en IA, julio 2026</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Modelos</span><span class="src">Anthropic ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://techcrunch.com/2026/07/08/openai-releases-new-voice-models-for-more-natural-live-conversations/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
       <div class="card-title">OpenAI presenta GPT-Live, su primera familia de modelos de voz con "arquitectura dúplex completa"</div>
     </div>
     <div class="card-body">
-      <p>El nuevo modelo permite que la IA escuche y hable al mismo tiempo, en lugar de alternar turnos como los asistentes de voz tradicionales, acercando la conversación por voz a la fluidez humana.</p>
-      <p><span class="label">Por qué importa: </span>abre camino a asistentes que interrumpen, matizan y reaccionan en tiempo real, con potencial en atención al cliente, educación y accesibilidad, aunque también intensifica el debate sobre suplantación de voz y deepfakes de audio.</p>
+      <p>OpenAI lanzó el 8 de julio GPT-Live, una familia de modelos de voz que procesa continuamente el audio que recibe incluso mientras genera su propia respuesta hablada, sin esperar a un silencio claro para saber cuándo ha terminado de hablar el usuario.</p>
+      <p>La familia incluye GPT-Live-1, modelo de voz por defecto para los planes de pago de ChatGPT, y GPT-Live-1 mini para el nivel gratuito. Ambos delegan el razonamiento profundo en GPT-5.5; en el benchmark GPQA, GPT-Live-1 en modo de razonamiento alto alcanza un 84,2% de precisión, frente al 45,3% de su predecesor.</p>
+      <p><span class="label">Por qué importa: </span>que la IA escuche e interrumpa en tiempo real acerca los asistentes de voz a la fluidez humana, con potencial en atención al cliente y educación, aunque intensifica el debate sobre suplantación de voz y deepfakes de audio.</p>
     </div>
-    <div class="card-footer"><span class="badge">Modelos</span><span>Fuente: cobertura especializada en IA, julio 2026</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Modelos</span><span class="src">TechCrunch ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.xataka.com/robotica-e-ia/creiamos-que-ningun-modelo-chino-ia-se-acercaria-pronto-a-fable-5-gpt-5-5-entonces-llego-glm-5-2" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
-      <div class="card-title">El modelo chino GLM-5.2 (Z.ai) reaviva el debate sobre si China alcanza a EE.UU. en IA</div>
+      <div class="card-title">El modelo chino GLM-5.2, de Z.ai, se acerca a los líderes mundiales de la IA a una fracción del precio</div>
     </div>
     <div class="card-body">
-      <p>GLM-5.2 ha mostrado capacidades comparables a los modelos líderes de Anthropic y OpenAI, en un contexto donde otro modelo chino, Qwen (Alibaba), gana relevancia global sin generar aún beneficios económicos claros para sus creadores.</p>
-      <p><span class="label">Por qué importa: </span>la brecha entre los modelos de EE.UU. y China se estrecha más rápido de lo esperado, lo que intensifica la presión geopolítica sobre el control de chips, datos y talento.</p>
+      <p>La startup china Zhipu AI (Z.ai) presentó GLM-5.2, un modelo abierto de 744.000 millones de parámetros -de los que solo 40.000 millones están activos por consulta- con una ventana de contexto de un millón de tokens y una nueva arquitectura de memoria llamada IndexShare/IndexCache.</p>
+      <p>GLM-5.2 obtiene una puntuación de inteligencia de 51 puntos, solo por detrás de GPT-5.5 (55), Claude Opus 4.8 (56) y Claude Fable 5 (60). Su precio -1,4 dólares por millón de tokens de entrada y 4,4 de salida- es una fracción de los 5/30 dólares de GPT-5.5 o los 10/50 de Claude Opus 4.8, y al ser abierto no impone limitaciones regionales de acceso.</p>
+      <p><span class="label">Por qué importa: </span>que un modelo chino se sitúe a pocos puntos de los líderes mundiales, y a precios muy inferiores, reaviva el debate sobre si la ventaja de EE.UU. en IA es tan sólida como se pensaba.</p>
     </div>
-    <div class="card-footer"><span class="badge">Competencia global</span><span>Fuente: cobertura especializada en IA, julio 2026</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Competencia global</span><span class="src">Xataka ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://news.un.org/es/story/2026/07/1541630" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
       <div class="card-title">La ONU y la UE avanzan en la regulación de la IA mientras crece la preocupación por ir a remolque</div>
     </div>
     <div class="card-body">
-      <p>El Panel Científico Internacional Independiente sobre IA de la ONU presentó un informe preliminar dentro del Diálogo Mundial sobre Gobernanza de la IA, iniciado el 6 de julio. En paralelo, la UE continúa el despliegue por fases de su Ley de IA, que ya exige transparencia, documentación y clasificación de riesgo a los sistemas de uso general y alto riesgo.</p>
-      <p><span class="label">Por qué importa: </span>el mensaje de fondo es el mismo en ambos procesos: la tecnología avanza más rápido que la capacidad de los reguladores para fijar reglas, dejando a empresas y usuarios operando en un terreno cambiante.</p>
+      <p>El Panel Científico Internacional Independiente sobre IA de la ONU presentó un informe preliminar el 6 de julio, con el que arrancó el Diálogo Mundial sobre Gobernanza de la Inteligencia Artificial impulsado por Naciones Unidas.</p>
+      <p>En paralelo, la Unión Europea continúa el despliegue por fases de su Ley de IA, que ya exige a los sistemas de uso general y alto riesgo cumplir requisitos legales de transparencia, documentación técnica y clasificación de riesgos antes de operar en el mercado europeo.</p>
+      <p><span class="label">Por qué importa: </span>el mensaje de fondo es el mismo en ambos procesos: la tecnología avanza más rápido que la capacidad de los reguladores para fijar reglas claras, dejando a empresas y usuarios en un terreno normativo cambiante.</p>
     </div>
-    <div class="card-footer"><span class="badge">Regulación</span><span>Fuente: Noticias ONU</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Regulación</span><span class="src">Noticias ONU ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.indexbox.io/blog/south-korea-exports-surge-709-in-june-2026-fastest-growth-since-1978/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
-      <div class="card-title">Corea del Sur bate récord de exportaciones gracias al boom de semiconductores para IA</div>
+      <div class="card-title">Corea del Sur bate récord histórico de exportaciones gracias al boom de semiconductores para IA</div>
     </div>
     <div class="card-body">
-      <p>Corea del Sur registró por primera vez exportaciones mensuales superiores a los 100.000 millones de dólares, impulsadas por la demanda de chips para IA, mientras ByteDance anunció un centro de datos de 39.000 millones de dólares en Brasil.</p>
-      <p><span class="label">Por qué importa: </span>la carrera de la IA se traduce en inversión física masiva -fábricas de chips, centros de datos- que reconfigura cadenas de suministro y sitúa a países como Corea del Sur en una posición estratégica clave.</p>
+      <p>Las exportaciones de Corea del Sur crecieron un 70,9% interanual en junio de 2026, hasta los 102.250 millones de dólares, la mayor subida interanual del país desde 1978, convirtiéndose en el cuarto país del mundo -tras Alemania, China y EE.UU.- en superar los 100.000 millones de dólares de exportaciones en un solo mes.</p>
+      <p>El motor de ese salto son los semiconductores: las exportaciones de chips se dispararon un 199,5%, hasta los 44.800 millones de dólares. En paralelo, ByteDance (matriz de TikTok) anunció la construcción de su mayor centro de datos fuera de China, en el estado brasileño de Ceará, con una inversión estimada de 39.000 millones de dólares y una primera fase de 300 megavatios de energía eólica operativa en 2027.</p>
+      <p><span class="label">Por qué importa: </span>la carrera de la IA se traduce en inversión física masiva -fábricas de chips, centros de datos- que reconfigura las cadenas de suministro globales y sitúa a países y regiones antes periféricas en posiciones estratégicas.</p>
     </div>
-    <div class="card-footer"><span class="badge">Infraestructura</span><span>Fuente: cobertura especializada en IA/economía, julio 2026</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Infraestructura</span><span class="src">IndexBox / Bloomberg ↗</span></div>
+  </a>
 
 </div>
 
@@ -485,65 +509,70 @@
 <div class="section espacio" id="espacio">
   <div class="section-title"><h2>Espacio</h2><span class="count">5 noticias</span></div>
 
-  <div class="card">
+  <a class="card" href="https://www.nasa.gov/news-release/la-nasa-adjudica-nuevas-misiones-cientificas-para-base-lunar-y-adelanta-nuevas-oportunidades/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 5 5 .8-3.6 3.5.9 5.2L12 14l-4.3 2.5.9-5.2L5 7.8 10 7z"/></svg></div>
       <div class="card-title">La NASA adjudica contratos por 600 millones de dólares para su Base Lunar</div>
     </div>
     <div class="card-body">
-      <p>La agencia seleccionó a Astrobotic, Firefly Aerospace e Intuitive Machines para realizar cuatro misiones a la Luna antes de finales de 2028, dentro del programa Base Lunar enmarcado en Artemis. Astrobotic recibió 297,9 millones de dólares para dos entregas; Firefly e Intuitive Machines, 144,2 y 148,3 millones respectivamente.</p>
+      <p>La NASA ha seleccionado a Astrobotic, Firefly Aerospace e Intuitive Machines para realizar cuatro misiones a la Luna antes de finales de 2028, dentro del programa Base Lunar enmarcado en Artemis. Astrobotic ha recibido 297,9 millones de dólares para dos entregas; Firefly Aerospace e Intuitive Machines, 144,2 y 148,3 millones respectivamente.</p>
+      <p>Cada misión transportará instrumentos científicos desarrollados por la NASA: cámaras estereoscópicas para analizar el polvo lunar, retrorreflectores láser para navegación de precisión y monitores de radiación, además del vehículo robótico experimental PROMISE, orientado a localizar depósitos de hielo de agua.</p>
       <p><span class="label">Por qué importa: </span>confirma el modelo de la NASA de apoyarse en empresas privadas para construir infraestructura lunar más rápido y barato que con desarrollos propios, en una carrera donde también compiten China y otros actores privados.</p>
     </div>
-    <div class="card-footer"><span class="badge">Programa lunar</span><span>Fuente: NASA / El Español</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Programa lunar</span><span class="src">NASA ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.nasa.gov/news-release/la-nasa-adjudica-nuevas-misiones-cientificas-para-base-lunar-y-adelanta-nuevas-oportunidades/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 5 5 .8-3.6 3.5.9 5.2L12 14l-4.3 2.5.9-5.2L5 7.8 10 7z"/></svg></div>
       <div class="card-title">El róver PROMISE buscará hielo de agua para abastecer la futura base lunar</div>
     </div>
     <div class="card-body">
-      <p>Cada misión de Base Lunar transportará instrumentos científicos -cámaras estereoscópicas, retrorreflectores láser, monitores de radiación- y el vehículo robótico PROMISE, cuyo objetivo prioritario es localizar y cuantificar depósitos de hielo de agua en la Luna.</p>
-      <p><span class="label">Por qué importa: </span>el agua lunar es el recurso crítico para producir combustible y soporte vital in situ (ISRU), reduciendo la dependencia de suministros desde la Tierra y siendo la pieza clave para que una base lunar permanente sea viable económicamente.</p>
+      <p>Entre los instrumentos que viajarán en las próximas misiones de la NASA destaca el vehículo robótico experimental PROMISE, diseñado para localizar y cuantificar depósitos de hielo de agua bajo la superficie lunar, especialmente en las regiones permanentemente sombreadas cerca de los polos.</p>
+      <p>El agua lunar es el recurso crítico para la utilización de recursos in situ (ISRU): a partir de ella se puede producir oxígeno respirable e hidrógeno para combustible de cohetes, evitando transportar esos materiales desde la Tierra a un coste muy superior.</p>
+      <p><span class="label">Por qué importa: </span>sin una fuente local de agua, combustible y soporte vital, una base lunar permanente sería económicamente inviable a largo plazo; encontrar estos depósitos es el paso previo indispensable antes de comprometer más presupuesto en infraestructura humana en la Luna.</p>
     </div>
-    <div class="card-footer"><span class="badge">Tecnología espacial</span><span>Fuente: NASA</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Tecnología espacial</span><span class="src">NASA ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.space.com/space-exploration/launches-spacecraft/spacex-fires-up-all-6-of-starships-engines-ahead-of-13th-test-flight-video" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 5 5 .8-3.6 3.5.9 5.2L12 14l-4.3 2.5.9-5.2L5 7.8 10 7z"/></svg></div>
-      <div class="card-title">SpaceX se acerca al 13º vuelo de prueba de Starship y prepara su primer lanzamiento desde Florida</div>
+      <div class="card-title">SpaceX enciende los seis motores de su próximo Starship de cara al vuelo de prueba 13</div>
     </div>
     <div class="card-body">
-      <p>SpaceX completó una prueba estática de seis motores para el Starship del vuelo 13 y avanza hacia su primer lanzamiento desde Cabo Cañaveral, ampliando el programa más allá de Starbase (Texas), antes de que termine 2026.</p>
-      <p><span class="label">Por qué importa: </span>la expansión geográfica reduce el riesgo de depender de una sola base de lanzamiento y acelera el ritmo de pruebas necesario si SpaceX quiere sostener sus planes de misiones a la Luna (con la NASA) y, eventualmente, a Marte.</p>
+      <p>SpaceX realizó una prueba estática completa de los seis motores Raptor del Ship 40 -tres optimizados para nivel del mar y tres para vacío- en Starbase (Boca Chica, Texas), simulando condiciones de vuelo real durante un minuto completo. Es el vehículo previsto para el decimotercer vuelo de prueba integral de Starship.</p>
+      <p>El vuelo 13 replicaría buena parte de los objetivos del vuelo 12, incluido el reencendido de un motor Raptor ya en el espacio, y podría producirse en agosto si las pruebas del propulsor Super Heavy también se completan sin incidencias. En paralelo, SpaceX avanza en su plan de realizar su primer lanzamiento de Starship desde Cabo Cañaveral (Florida) antes de que acabe el año, ampliando el programa más allá de Texas.</p>
+      <p><span class="label">Por qué importa: </span>cada prueba superada acerca a SpaceX a un ritmo de vuelo sostenido de Starship, el vehículo del que depende buena parte del calendario de alunizaje tripulado de la NASA y de los planes propios de la compañía para Marte.</p>
     </div>
-    <div class="card-footer"><span class="badge">Vuelos de prueba</span><span>Fuente: Space.com / KeepTrack</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Vuelos de prueba</span><span class="src">Space.com ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://spaceflightnow.com/2026/07/09/live-coverage-spacex-to-launch-falcon-9-rocket-on-record-breaking-36th-flight/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 5 5 .8-3.6 3.5.9 5.2L12 14l-4.3 2.5.9-5.2L5 7.8 10 7z"/></svg></div>
       <div class="card-title">Falcon 9 bate récord de reutilización con su 36º vuelo del mismo cohete</div>
     </div>
     <div class="card-body">
-      <p>SpaceX lanzó el 9 de julio su propulsor Falcon 9 más reutilizado hasta la fecha (36 vuelos), en apoyo de la misión Starlink 10-42, que sumó 29 satélites adicionales a la constelación de internet.</p>
-      <p><span class="label">Por qué importa: </span>cada récord de reutilización reduce el coste por lanzamiento y consolida el modelo económico que ha permitido a SpaceX dominar el mercado de lanzamientos comerciales, presionando a la baja los precios de toda la industria.</p>
+      <p>SpaceX lanzó el 9 de julio el propulsor Falcon 9 más reutilizado de su historia, alcanzando 36 vuelos con la misma unidad, en apoyo de la misión Starlink 10-42, que sumó 29 satélites adicionales a su constelación de internet por satélite.</p>
+      <p>Cada nuevo récord de reutilización reduce el coste marginal por lanzamiento, al amortizar la inversión inicial en el propulsor entre un número cada vez mayor de misiones, algo impensable en la era de los cohetes desechables.</p>
+      <p><span class="label">Por qué importa: </span>este modelo económico es la base que ha permitido a SpaceX dominar el mercado mundial de lanzamientos comerciales, presionando a la baja los precios de toda la industria.</p>
     </div>
-    <div class="card-footer"><span class="badge">Lanzamientos</span><span>Fuente: Spaceflight Now</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Lanzamientos</span><span class="src">Spaceflight Now ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.vanguardia.com/mundo/2026/05/24/mision-shenzhou-23-avanza-con-exito-astronautas-chinos-ya-estan-en-la-estacion-tiangong/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 5 5 .8-3.6 3.5.9 5.2L12 14l-4.3 2.5.9-5.2L5 7.8 10 7z"/></svg></div>
       <div class="card-title">China amplía su estación espacial Tiangong mientras un astronauta permanece un año en órbita</div>
     </div>
     <div class="card-body">
-      <p>La misión Shenzhou-23, con tres astronautas (incluida la primera procedente de Hong Kong), permanecerá cerca de seis meses en Tiangong desarrollando más de un centenar de proyectos científicos. China ha anunciado además la ampliación de la estación, que pasará de una estructura en "T" a una en cruz con un nuevo módulo de 20 toneladas, y uno de los tripulantes pasará un año completo en órbita como preparación para el programa de alunizaje chino.</p>
-      <p><span class="label">Por qué importa: </span>la expansión de Tiangong y las estancias prolongadas son un ensayo directo de las misiones tripuladas a la Luna que China planea para finales de la década, y refuerzan su ambición de una plataforma industrial y científica propia, independiente de la ISS.</p>
+      <p>La misión Shenzhou-23 despegó el 24 de mayo desde el Centro de Lanzamiento de Satélites de Jiuquan con tres astronautas a bordo, entre ellos la primera tripulante procedente de Hong Kong. Es el cuadragésimo vuelo del programa espacial tripulado chino y permanecerá cerca de seis meses acoplada a Tiangong.</p>
+      <p>La tripulación desarrollará más de un centenar de proyectos científicos, incluidas actividades extravehiculares. China ha anunciado además una ampliación estructural de Tiangong, que pasará de su forma en "T" a una configuración en cruz con un nuevo módulo de 20 toneladas, y uno de los tripulantes permanecerá un año completo en órbita como preparación para el futuro programa chino de alunizaje tripulado.</p>
+      <p><span class="label">Por qué importa: </span>la expansión de Tiangong y las estancias prolongadas son un ensayo directo de cara a las misiones tripuladas a la Luna que China planea para el final de la década, y refuerzan su ambición de una plataforma propia independiente de la ISS.</p>
     </div>
-    <div class="card-footer"><span class="badge">China</span><span>Fuente: Vanguardia / Infoespacial</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">China</span><span class="src">Vanguardia ↗</span></div>
+  </a>
 
 </div>
 
@@ -551,65 +580,70 @@
 <div class="section finanzas" id="finanzas">
   <div class="section-title"><h2>Finanzas</h2><span class="count">5 noticias · enfoque fondos indexados</span></div>
 
-  <div class="card">
+  <a class="card" href="https://es-us.noticias.yahoo.com/s-p-500-enfrenta-prueba-211800812.html" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
       <div class="card-title">El S&P 500 afronta julio con la temporada de resultados como gran catalizador</div>
     </div>
     <div class="card-body">
-      <p>La temporada de resultados arranca con fuerza el 14 de julio, cuando JPMorgan Chase, Bank of America, Goldman Sachs y Citigroup presentan sus cuentas trimestrales, seguidos un día después por Morgan Stanley, BNY y PNC. FactSet estima un crecimiento medio de beneficios del 22% para las compañías del índice.</p>
-      <p><span class="label">Para un perfil de fondos indexados: </span>estas cifras no exigen ninguna acción -no hay que anticiparse a resultados concretos-, pero confirman que el crecimiento de beneficios agregado sigue siendo el motor de fondo que sostiene la revalorización del índice a largo plazo.</p>
+      <p>La temporada de resultados del segundo trimestre arranca con fuerza el 14 de julio, cuando JPMorgan Chase, Bank of America, Goldman Sachs y Citigroup presenten sus cuentas, seguidos un día después por Morgan Stanley, BNY y PNC Financial Services. FactSet estima un crecimiento medio de beneficios del 22% para el conjunto del índice.</p>
+      <p>Le seguirán en las semanas siguientes el resto de sectores, incluidas las grandes tecnológicas que han marcado buena parte de la subida del índice en la primera mitad del año. Los analistas se muestran mayoritariamente optimistas, aunque persisten dudas sobre si ese optimismo ya está recogido en las valoraciones actuales.</p>
+      <p><span class="label">Para un perfil de fondos indexados: </span>estas cifras no exigen ninguna acción concreta, pero confirman que el crecimiento de beneficios agregado sigue siendo el motor de fondo que sostiene la revalorización del índice a largo plazo.</p>
     </div>
-    <div class="card-footer"><span class="badge">S&amp;P 500</span><span>Fuente: FactSet / Yahoo Finanzas</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">S&amp;P 500</span><span class="src">Yahoo Finanzas ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://invezz.com/news/2026/07/01/sp-500-index-voo-and-spy-outlook-for-july-2026-key-catalysts-to-watch/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
       <div class="card-title">La Reserva Federal decide sobre tipos el 28 de julio en un contexto de inflación elevada</div>
     </div>
     <div class="card-body">
-      <p>La mayoría de analistas espera que la Fed mantenga los tipos sin cambios el resto del año, aunque un mercado laboral sólido y una inflación algo elevada podrían reforzar el argumento a favor de una postura más restrictiva.</p>
+      <p>La mayoría de analistas espera que la Fed mantenga los tipos sin cambios en su reunión del 28 de julio y durante el resto del año, aunque un mercado laboral sólido y una inflación algo elevada podrían reforzar el argumento a favor de una postura más restrictiva de lo previsto.</p>
+      <p>El índice se ha mantenido ligeramente por encima de su media móvil de 50 días, formando un patrón técnico de continuidad alcista con un objetivo inicial en torno a los 7.621 puntos, aunque la incertidumbre sobre la política monetaria introduce cautela.</p>
       <p><span class="label">Para un perfil de fondos indexados: </span>los tipos afectan sobre todo a la valoración relativa entre renta variable y renta fija; un escenario de "tipos altos por más tiempo" no cambia la estrategia de largo plazo, pero conviene tenerlo en cuenta al rebalancear la parte de renta fija de la cartera.</p>
     </div>
-    <div class="card-footer"><span class="badge">Política monetaria</span><span>Fuente: Invezz / Dailyforex</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Política monetaria</span><span class="src">Invezz ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://es.dailyforex.com/stock-market-today/2026/07/sp-500-y-7-magnificas-pierde-impulso-por-incertidumbre-geopolitica-9-julio-2026/247448" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
       <div class="card-title">El S&P 500 pierde impulso por la tensión en Irán y el repunte del petróleo</div>
     </div>
     <div class="card-body">
-      <p>El índice ha moderado su ritmo alcista tras el recrudecimiento del conflicto entre EE.UU. e Irán y la subida del precio del petróleo, con los sectores que más subieron en la primera mitad de 2026 sufriendo ahora una rotación hacia otros más defensivos.</p>
-      <p><span class="label">Para un perfil de fondos indexados: </span>episodios como este recuerdan por qué un fondo indexado diversificado amortigua mejor estos sobresaltos que apostar por los sectores de moda: la rotación afecta a las acciones individuales, pero el índice en su conjunto absorbe el golpe con menos volatilidad.</p>
+      <p>El índice ha moderado su ritmo alcista en las últimas sesiones tras el recrudecimiento del conflicto entre EE.UU. e Irán y la subida del petróleo asociada a la escalada en el estrecho de Ormuz, en una semana marcada por el aumento de la incertidumbre geopolítica.</p>
+      <p>Los sectores que más habían subido durante la primera mitad de 2026 -principalmente los ligados al boom de la inteligencia artificial- han sido los primeros en sufrir una rotación hacia valores más defensivos, a medida que los inversores adoptan una postura más prudente.</p>
+      <p><span class="label">Para un perfil de fondos indexados: </span>episodios como este recuerdan por qué un fondo indexado diversificado amortigua mejor estos sobresaltos que concentrar la cartera en los sectores de moda: la rotación afecta a las acciones individuales, pero el índice absorbe el golpe con menos volatilidad.</p>
     </div>
-    <div class="card-footer"><span class="badge">Volatilidad</span><span>Fuente: Dailyforex / Seeking Alpha</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Volatilidad</span><span class="src">Dailyforex ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://carlosgalan.net/mejores-fondos-indexados/" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
       <div class="card-title">Los fondos indexados en EE.UU. superan ya los 19 billones de dólares en activos</div>
     </div>
     <div class="card-body">
-      <p>La gestión pasiva sigue consolidándose como pilar de los mercados globales, con los fondos indexados estadounidenses superando los 19 billones de dólares gestionados a comienzos de 2026, y los fondos ligados al S&P 500 acumulando en el año subidas cercanas al 12,5% en euros (sin cobertura de divisa).</p>
-      <p><span class="label">Para un perfil de fondos indexados: </span>la cifra confirma que la fórmula de bajo coste, amplia diversificación y disciplina de inversión sigue ganando terreno frente a la gestión activa, precisamente el marco de referencia de esta sección.</p>
+      <p>La gestión pasiva sigue consolidándose como uno de los pilares de los mercados financieros globales: los fondos indexados estadounidenses superaban ya los 19 billones de dólares en activos gestionados a comienzos de 2026, reflejando un cambio estructural en cómo se construyen las carteras.</p>
+      <p>Dentro de esa tendencia, los fondos ligados al S&P 500 sin cobertura de divisa acumulan en lo que va de año subidas cercanas al 12,5% en euros, tras dos años previos marcados por tipos elevados e inflación persistente.</p>
+      <p><span class="label">Para un perfil de fondos indexados: </span>la magnitud de esta cifra confirma que la fórmula de bajo coste, amplia diversificación y disciplina de inversión sigue ganando terreno frente a la gestión activa tradicional.</p>
     </div>
-    <div class="card-footer"><span class="badge">Gestión pasiva</span><span>Fuente: Carlos Galán / Rankia</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Gestión pasiva</span><span class="src">Carlos Galán ↗</span></div>
+  </a>
 
-  <div class="card">
+  <a class="card" href="https://www.rankia.com/blog/etf/5454741-mejores-fondos-indexados-para-invertir-espana" target="_blank" rel="noopener noreferrer">
     <div class="card-top">
       <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
       <div class="card-title">Las comisiones por debajo del 0,10% siguen siendo la principal ventaja de los fondos indexados</div>
     </div>
     <div class="card-body">
-      <p>Los análisis de 2026 coinciden en que la estrategia ganadora para el inversor pasivo se apoya en tres pilares: reducción de costes, amplia diversificación (S&P 500, MSCI World y EuroStoxx 50 entre las referencias más usadas en España) y disciplina en la asignación de activos, evitando decisiones basadas en el ruido de mercado a corto plazo.</p>
-      <p><span class="label">Para un perfil de fondos indexados: </span>en un año con episodios de volatilidad geopolítica (Irán, Groenlandia, aranceles) y decisiones de bancos centrales pendientes, el mensaje de fondo no cambia: mantenerse invertido y con comisiones bajas importa más que intentar anticipar cada noticia.</p>
+      <p>Los análisis del sector coinciden en que la estrategia ganadora para el inversor pasivo en 2026 se apoya en tres pilares: reducción de costes, amplia diversificación -con el S&P 500, el MSCI World y el EuroStoxx 50 como referencias más usadas en España- y disciplina en la asignación de activos.</p>
+      <p>Los fondos con comisiones inferiores al 0,10% anual siguen ofreciendo una ventaja competitiva relevante a largo plazo frente a productos de gestión activa con comisiones muy superiores, un diferencial que, acumulado durante décadas, puede suponer una parte sustancial del capital final.</p>
+      <p><span class="label">Para un perfil de fondos indexados: </span>en un año con volatilidad geopolítica -Irán, Groenlandia, aranceles- y decisiones de bancos centrales pendientes, el mensaje de fondo no cambia: mantenerse invertido y con comisiones bajas importa más que anticipar cada noticia.</p>
     </div>
-    <div class="card-footer"><span class="badge">Estrategia</span><span>Fuente: Rankia / Mundo-finanzas</span></div>
-  </div>
+    <div class="card-footer"><span class="badge">Estrategia</span><span class="src">Rankia ↗</span></div>
+  </a>
 
 </div>
 
@@ -618,9 +652,10 @@ function showTab(name) {
   document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
   document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.id === name));
 }
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
   });
 }
 </script>
