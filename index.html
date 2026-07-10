@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Briefing diario</title>
+<meta name="theme-color" content="#14151a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Briefing">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="icon" href="icon-192.png">
+<style>
+  :root {
+    color-scheme: light;
+    --ink: #14151a;
+    --ink-soft: #6b6d76;
+    --line: #e9e9ee;
+    --bg: #f4f4f7;
+    --geo-a: #4f5fd9; --geo-b: #eef0fd;
+    --salud-a: #17a562; --salud-b: #eafaf1;
+    --tech-a: #d9740f; --tech-b: #fdf1e3;
+    --ia-a: #9333ea; --ia-b: #f6eefd;
+    --espacio-a: #1d5fd6; --espacio-b: #eaf1fd;
+    --fin-a: #b8890a; --fin-b: #fdf6e0;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .header {
+    padding: 30px 32px 22px;
+    background: linear-gradient(135deg, #14151a 0%, #2a2c38 55%, #3a3450 100%);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(600px 200px at 85% -20%, rgba(147,51,234,.35), transparent 60%),
+                radial-gradient(500px 200px at 10% 120%, rgba(79,95,217,.35), transparent 60%);
+    pointer-events: none;
+  }
+  .header-row { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .header h1 {
+    margin: 0 0 6px;
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .header .sub {
+    color: rgba(255,255,255,.65);
+    font-size: 13px;
+  }
+  .date-pill {
+    position: relative;
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18);
+    backdrop-filter: blur(6px);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+  }
+  .date-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 3px rgba(52,211,153,.25); }
+
+  .tabs {
+    display: flex;
+    gap: 6px;
+    padding: 14px 32px;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    border-bottom: 1px solid var(--line);
+    overflow-x: auto;
+  }
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--ink-soft);
+    border: 1px solid transparent;
+    background: transparent;
+    white-space: nowrap;
+    transition: background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .tab:hover { background: #ececf1; color: var(--ink); }
+  .tab.active {
+    color: #fff;
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .tab svg { width: 15px; height: 15px; }
+
+  .section { display: none; padding: 26px 32px 48px; max-width: 880px; margin: 0 auto; animation: fadeIn .25s ease; }
+  .section.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .section-title {
+    display: flex; align-items: baseline; gap: 10px;
+    margin: 4px 0 18px;
+  }
+  .section-title h2 { font-size: 15px; font-weight: 800; margin: 0; letter-spacing: -0.01em; }
+  .section-title .count { font-size: 12px; color: var(--ink-soft); font-weight: 600; }
+
+  .card {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px 24px 18px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 2px rgba(20,21,26,.04);
+    transition: box-shadow .2s ease, transform .2s ease, border-color .2s ease;
+    overflow: hidden;
+  }
+  .card::before {
+    content: "";
+    position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent, var(--ink));
+  }
+  .card:hover {
+    box-shadow: 0 10px 24px rgba(20,21,26,.08);
+    transform: translateY(-1px);
+    border-color: #dedee6;
+  }
+  .card-top { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
+  .card-icon {
+    flex: none;
+    width: 38px; height: 38px;
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--accent-bg);
+    color: var(--accent);
+  }
+  .card-icon svg { width: 20px; height: 20px; }
+  .card-title { font-size: 16px; font-weight: 800; line-height: 1.35; letter-spacing: -0.01em; padding-top: 2px; }
+  .card-body p { font-size: 14px; line-height: 1.65; color: #363740; margin: 0 0 11px; }
+  .card-body .label { font-weight: 700; color: var(--ink); }
+  .card-footer {
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+    margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line);
+    font-size: 12px; color: var(--ink-soft);
+  }
+  .card-footer .src { font-weight: 600; color: #4a4b53; }
+  .badge {
+    font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px;
+    background: var(--accent-bg); color: var(--accent);
+  }
+
+  .geo { --accent: var(--geo-a); --accent-bg: var(--geo-b); }
+  .salud { --accent: var(--salud-a); --accent-bg: var(--salud-b); }
+  .tech { --accent: var(--tech-a); --accent-bg: var(--tech-b); }
+  .ia { --accent: var(--ia-a); --accent-bg: var(--ia-b); }
+  .espacio { --accent: var(--espacio-a); --accent-bg: var(--espacio-b); }
+  .finanzas { --accent: var(--fin-a); --accent-bg: var(--fin-b); }
+
+  ::-webkit-scrollbar { height: 6px; }
+  ::-webkit-scrollbar-thumb { background: #d7d7de; border-radius: 6px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div>
+      <h1>Briefing diario</h1>
+      <div class="sub">Geopolítica · Salud · Tecnología · IA · Espacio · Finanzas — noticias contrastadas, sin ruido</div>
+    </div>
+    <div class="date-pill"><span class="dot"></span>Actualizado · 10 de julio de 2026</div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab active" data-tab="geo" onclick="showTab('geo')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg>
+    Geopolítica
+  </div>
+  <div class="tab" data-tab="salud" onclick="showTab('salud')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-9C.8 8.1 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.1 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg>
+    Salud
+  </div>
+  <div class="tab" data-tab="tech" onclick="showTab('tech')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg>
+    Tecnología
+  </div>
+  <div class="tab" data-tab="ia" onclick="showTab('ia')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>
+    IA
+  </div>
+  <div class="tab" data-tab="espacio" onclick="showTab('espacio')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 5 5 .8-3.6 3.5.9 5.2L12 14l-4.3 2.5.9-5.2L5 7.8 10 7z"/></svg>
+    Espacio
+  </div>
+  <div class="tab" data-tab="finanzas" onclick="showTab('finanzas')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+    Finanzas
+  </div>
+</div>
+
+<!-- GEOPOLÍTICA -->
+<div class="section geo active" id="geo">
+  <div class="section-title"><h2>Geopolítica</h2><span class="count">5 noticias</span></div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div>
+      <div class="card-title">Trump da por roto el alto el fuego y EE.UU. e Irán reanudan los ataques en el golfo Pérsico</div>
+    </div>
+    <div class="card-body">
+      <p>El presidente Trump anunció el 8 de julio el fin de la tregua con Irán, tras un ataque de Teherán contra aliados de Washington en la región y bombardeos estadounidenses sobre el perímetro de una planta nuclear iraní. El Comando Central de EE.UU. afirma haber golpeado objetivos iraníes 170 veces en dos días, mientras Irán amenaza con cobrar peaje a los buques que cruzan el estrecho de Ormuz.</p>
+      <p><span class="label">Por qué importa: </span>la escalada devuelve a la región a una guerra abierta meses después de los ataques de febrero y convierte Ormuz en el punto más peligroso del sistema energético mundial. Si el bloqueo se prolonga, el precio del petróleo y el transporte marítimo se presionarán al alza, con efecto directo sobre la inflación en Europa y España.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Internacional</span><span>Fuente: Bloomberg / CNN</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div>
+      <div class="card-title">Trump amenaza con retirar tropas de las bases de Rota y Morón por el veto español a la guerra con Irán</div>
+    </div>
+    <div class="card-body">
+      <p>La negativa del Gobierno español a que EE.UU. usara las bases de Rota y Morón en sus operaciones contra Irán ha abierto una crisis diplomática. Trump ha calificado a España de "inútil" y "pésimo socio" de la OTAN, y amenaza con romper relaciones comerciales si Madrid no eleva su gasto en defensa al 5% del PIB.</p>
+      <p><span class="label">Por qué importa: </span>un repliegue estadounidense pondría en riesgo más de 8.000 empleos directos en Andalucía y unos 279 millones de euros anuales, y tensiona el acuerdo bilateral de 1953. Es una muestra de que Washington empieza a tratar la presencia militar en sus aliados como algo condicionado, no automático.</p>
+    </div>
+    <div class="card-footer"><span class="badge">España</span><span>Fuente: Moncloa.com / Atalayar</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div>
+      <div class="card-title">El terremoto de Venezuela supera los 3.800 muertos y sigue sin cifra definitiva</div>
+    </div>
+    <div class="card-body">
+      <p>Los seísmos de magnitud 7.5 y 7.2 del 24 de junio han dejado ya más de 3.800 fallecidos, cerca de 17.000 heridos y más de 17.800 desplazados, según las últimas cifras oficiales. Las zonas costeras como La Guaira concentran los mayores daños.</p>
+      <p><span class="label">Por qué importa: </span>es uno de los desastres naturales más letales de la región en décadas. La reconstrucción llega en un momento de fragilidad institucional del país, lo que complica la respuesta humanitaria y abre debate sobre su capacidad de gestionar la crisis sin ayuda internacional sostenida.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Latinoamérica</span><span>Fuente: CNN</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div>
+      <div class="card-title">Trump reabre el pulso por Groenlandia y amenaza con retirar todas las tropas de Europa</div>
+    </div>
+    <div class="card-body">
+      <p>En la cumbre de la OTAN en Ankara, Trump insistió el 7 de julio en que "Groenlandia debe estar bajo control de Estados Unidos, y no de Dinamarca", alegando que está "rodeada de buques chinos y rusos". Washington plantea modificar el acuerdo militar de 1951 para estacionar tropas indefinidamente. Dinamarca respondió que la isla "no está en venta".</p>
+      <p><span class="label">Por qué importa: </span>usar la retirada de tropas de Europa como palanca de presión desestabiliza el pilar de seguridad de la OTAN desde la Guerra Fría, y obliga a los aliados europeos a plantearse una defensa propia menos dependiente de EE.UU.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Europa</span><span>Fuente: El Grand Continent / El Español</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div>
+      <div class="card-title">Rusia y Ucrania mantienen una escalada de ataques con drones pese a las negociaciones</div>
+    </div>
+    <div class="card-body">
+      <p>Entre el 9 y el 10 de julio, las fuerzas rusas atacaron objetivos en Donbás, Sumy, Kharkiv, Zaporiyia y Jersón, mientras la defensa antiaérea rusa interceptó 376 drones ucranianos sobre Bélgorod y Briansk en una sola noche.</p>
+      <p><span class="label">Por qué importa: </span>la intensidad de los ataques mutuos confirma que, más allá de los anuncios diplomáticos puntuales, ninguna parte ha reducido su capacidad ofensiva real, lo que aleja un alto el fuego duradero y mantiene la presión sobre la seguridad energética de Europa del Este.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Europa del Este</span><span>Fuente: Ukrinform</span></div>
+  </div>
+
+</div>
+
+<!-- SALUD -->
+<div class="section salud" id="salud">
+  <div class="section-title"><h2>Salud</h2><span class="count">5 noticias</span></div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-9C.8 8.1 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.1 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg></div>
+      <div class="card-title">La OMS advierte que los casos de cáncer podrían llegar a 35 millones al año en 2050</div>
+    </div>
+    <div class="card-body">
+      <p>Según la Agencia Internacional de Investigación sobre el Cáncer (IARC/OMS), citada por Agencia SINC el 9 de julio, el cáncer se cobra ya más de 26.000 vidas al día, con 20,6 millones de nuevos casos anuales. Sin medidas de prevención adicionales, la cifra podría acercarse a los 35 millones en 2050.</p>
+      <p><span class="label">Por qué importa: </span>el aumento se explica por el envejecimiento poblacional y factores de riesgo evitables (tabaco, alcohol, obesidad, contaminación), lo que sitúa la prevención como la palanca más eficaz para contener el impacto sanitario y económico de la enfermedad.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Global</span><span>Fuente: Agencia SINC</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-9C.8 8.1 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.1 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg></div>
+      <div class="card-title">España registra cifras históricas de bajas laborales por motivos de salud</div>
+    </div>
+    <div class="card-body">
+      <p>The Conversation analiza, en un artículo del 10 de julio, cómo España encadena máximos históricos de incapacidad temporal. El envejecimiento de la población activa, el aumento de problemas de salud mental, las enfermedades musculoesqueléticas y los retrasos en la atención sanitaria explican buena parte del fenómeno.</p>
+      <p><span class="label">Por qué importa: </span>el artículo cuestiona el relato que atribuye el aumento al fraude o a la actitud individual, y plantea las bajas laborales como termómetro de la salud del sistema sanitario y del mercado de trabajo, con implicaciones para la Seguridad Social.</p>
+    </div>
+    <div class="card-footer"><span class="badge">España</span><span>Fuente: The Conversation</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-9C.8 8.1 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.1 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg></div>
+      <div class="card-title">Identifican el interruptor molecular que explica por qué el ejercicio rejuvenece los músculos</div>
+    </div>
+    <div class="card-body">
+      <p>Un equipo del Duke-NUS Medical School (Singapur), con Cardiff University, ha identificado el gen DEAF1 como mecanismo clave: sus niveles aumentan con la edad y alteran la reparación muscular, mientras que el ejercicio los reduce y restaura el equilibrio celular. Publicado en julio en PNAS.</p>
+      <p><span class="label">Por qué importa: </span>ofrece una explicación molecular concreta de por qué la actividad física mantiene la fuerza en la vejez, y abre la puerta a terapias dirigidas a DEAF1 para personas que no pueden hacer ejercicio, en sociedades cada vez más envejecidas.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Investigación</span><span>Fuente: ScienceDaily / PNAS</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-9C.8 8.1 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.1 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg></div>
+      <div class="card-title">Descubren por qué el cáncer colorrectal se vuelve letal al perder una proteína clave</div>
+    </div>
+    <div class="card-body">
+      <p>Investigadores de Weill Cornell Medicine y el MIT han descubierto que la pérdida de la proteína GATA6 empuja a las células del cáncer colorrectal a un estado "similar al fetal" que facilita su propagación al hígado. Publicado el 22 de junio en Cell Stem Cell.</p>
+      <p><span class="label">Por qué importa: </span>sugiere que la metástasis no depende solo de mutaciones genéticas sino de cambios de identidad celular, y abre una vía terapéutica: restaurar GATA6 podría frenar la propagación y mejorar el pronóstico de los casos más agresivos.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Investigación</span><span>Fuente: ScienceDaily / Cell Stem Cell</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.35-9.5-9C.8 8.1 3 4 7 4c2 0 3.5 1.2 5 3 1.5-1.8 3-3 5-3 4 0 6.2 4.1 4.5 8-2.5 4.65-9.5 9-9.5 9z"/></svg></div>
+      <div class="card-title">Casi la mitad de las comidas para llevar analizadas contienen más sal de la que anuncian</div>
+    </div>
+    <div class="card-body">
+      <p>Un estudio de la Universidad de Reading (Reino Unido) que analizó 39 platos de 23 restaurantes encontró que el 47% de las comidas para llevar superaba la sal declarada en el menú. Los platos de pasta fueron los más salados, con una media de 7,2 g por ración.</p>
+      <p><span class="label">Por qué importa: </span>con el límite diario recomendado en 6 g, el hallazgo evidencia un problema de transparencia en el etiquetado que dificulta controlar la ingesta de sodio, factor de riesgo directo para la hipertensión y las enfermedades cardiovasculares.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Reino Unido</span><span>Fuente: University of Reading / ScienceDaily</span></div>
+  </div>
+
+</div>
+
+<!-- TECNOLOGÍA -->
+<div class="section tech" id="tech">
+  <div class="section-title"><h2>Tecnología</h2><span class="count">5 noticias</span></div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
+      <div class="card-title">China aprueba el primer chip cerebral invasivo del mundo para uso comercial</div>
+    </div>
+    <div class="card-body">
+      <p>El regulador chino (NMPA) ha aprobado el dispositivo NEO, de Neuracle Technology y la Universidad Tsinghua, para pacientes con parálisis parcial por lesión medular. Sus ocho sensores se colocan sobre la duramadre, sin penetrar el córtex, y en ensayos clínicos ha permitido a los pacientes recuperar la capacidad de sujetar objetos.</p>
+      <p><span class="label">Por qué importa: </span>es la primera interfaz cerebro-máquina invasiva del mundo en superar la aprobación de un regulador nacional para uso más allá de ensayos clínicos, adelantando a EE.UU. (donde la FDA tarda años) y consolidando a China como referente en neurotecnología.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Neurotecnología</span><span>Fuente: MIT Technology Review</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
+      <div class="card-title">Microsoft despedirá a 4.800 empleados y vacía Xbox de estudios propios</div>
+    </div>
+    <div class="card-body">
+      <p>Microsoft ha anunciado el despido de 4.800 personas, en una reestructuración que incluye el vaciado progresivo de los estudios internos de desarrollo de Xbox.</p>
+      <p><span class="label">Por qué importa: </span>confirma el giro de Microsoft hacia un modelo de gaming menos dependiente de estudios propios y más orientado a plataforma y servicios (Game Pass, nube), a costa de su capacidad interna de creación de contenido first-party.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Empresas</span><span>Fuente: Xataka</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
+      <div class="card-title">El iPhone Ultra, el primer plegable de Apple, llegará con disponibilidad muy limitada</div>
+    </div>
+    <div class="card-body">
+      <p>Apple lanzará su primer iPhone plegable, el iPhone Ultra, en el tercer trimestre de 2026, con una producción inicial de solo entre 500.000 y un millón de unidades.</p>
+      <p><span class="label">Por qué importa: </span>la escasez deliberada apunta a problemas de fabricación en la bisagra plegable o a una estrategia de lanzamiento premium controlada, similar a la de otros plegables de la competencia en sus primeras generaciones.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Hardware</span><span>Fuente: Xataka</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
+      <div class="card-title">EE.UU. y China empiezan a tratar sus modelos de IA más avanzados como activos estratégicos de Estado</div>
+    </div>
+    <div class="card-body">
+      <p>Ambas potencias han empezado a restringir y proteger sus modelos de IA más punteros como si fueran tecnología de seguridad nacional, mientras modelos como Qwen (Alibaba) ganan relevancia global sin generar aún beneficios significativos para sus creadores.</p>
+      <p><span class="label">Por qué importa: </span>la carrera por la IA se desplaza de lo comercial a lo geopolítico: controlar el modelo más avanzado empieza a valer, para los gobiernos, tanto como controlar tecnología militar o energética, anticipando más restricciones a la exportación y colaboración científica.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Inteligencia Artificial</span><span>Fuente: Xataka</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3"/></svg></div>
+      <div class="card-title">Amazon cierra Mechanical Turk a nuevos clientes tras 21 años de actividad</div>
+    </div>
+    <div class="card-body">
+      <p>Amazon ha anunciado que Mechanical Turk, su plataforma de microtareas lanzada en 2005, dejará de aceptar nuevos clientes a partir del 30 de julio de 2026.</p>
+      <p><span class="label">Por qué importa: </span>simboliza el ocaso del modelo de "trabajo humano bajo demanda" tal y como se concibió hace dos décadas, justo cuando buena parte de esas microtareas (etiquetado de datos, moderación, transcripción) están siendo absorbidas por sistemas de IA generativa.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Plataformas</span><span>Fuente: Xataka</span></div>
+  </div>
+
+</div>
+
+<!-- IA -->
+<div class="section ia" id="ia">
+  <div class="section-title"><h2>Inteligencia Artificial</h2><span class="count">5 noticias</span></div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
+      <div class="card-title">Anthropic lanza Claude Sonnet 5 con precios introductorios y foco en investigación científica</div>
+    </div>
+    <div class="card-body">
+      <p>Anthropic presentó Claude Sonnet 5, con mejoras en codificación, depuración y ejecución de tareas en varios pasos, a un precio introductorio de 2$ por millón de tokens de entrada y 10$ de salida hasta el 31 de agosto de 2026. En paralelo lanzó Claude Science, un banco con más de 60 herramientas preconfiguradas para investigadores, junto a un programa interno de descubrimiento de fármacos para enfermedades desatendidas.</p>
+      <p><span class="label">Por qué importa: </span>la competencia entre grandes modelos ya no se libra solo en capacidad general, sino en aplicaciones verticales (ciencia, medicina) que pueden acelerar investigación real más allá del chatbot genérico.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Modelos</span><span>Fuente: cobertura especializada en IA, julio 2026</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
+      <div class="card-title">OpenAI presenta GPT-Live, su primera familia de modelos de voz con "arquitectura dúplex completa"</div>
+    </div>
+    <div class="card-body">
+      <p>El nuevo modelo permite que la IA escuche y hable al mismo tiempo, en lugar de alternar turnos como los asistentes de voz tradicionales, acercando la conversación por voz a la fluidez humana.</p>
+      <p><span class="label">Por qué importa: </span>abre camino a asistentes que interrumpen, matizan y reaccionan en tiempo real, con potencial en atención al cliente, educación y accesibilidad, aunque también intensifica el debate sobre suplantación de voz y deepfakes de audio.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Modelos</span><span>Fuente: cobertura especializada en IA, julio 2026</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
+      <div class="card-title">El modelo chino GLM-5.2 (Z.ai) reaviva el debate sobre si China alcanza a EE.UU. en IA</div>
+    </div>
+    <div class="card-body">
+      <p>GLM-5.2 ha mostrado capacidades comparables a los modelos líderes de Anthropic y OpenAI, en un contexto donde otro modelo chino, Qwen (Alibaba), gana relevancia global sin generar aún beneficios económicos claros para sus creadores.</p>
+      <p><span class="label">Por qué importa: </span>la brecha entre los modelos de EE.UU. y China se estrecha más rápido de lo esperado, lo que intensifica la presión geopolítica sobre el control de chips, datos y talento.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Competencia global</span><span>Fuente: cobertura especializada en IA, julio 2026</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
+      <div class="card-title">La ONU y la UE avanzan en la regulación de la IA mientras crece la preocupación por ir a remolque</div>
+    </div>
+    <div class="card-body">
+      <p>El Panel Científico Internacional Independiente sobre IA de la ONU presentó un informe preliminar dentro del Diálogo Mundial sobre Gobernanza de la IA, iniciado el 6 de julio. En paralelo, la UE continúa el despliegue por fases de su Ley de IA, que ya exige transparencia, documentación y clasificación de riesgo a los sistemas de uso general y alto riesgo.</p>
+      <p><span class="label">Por qué importa: </span>el mensaje de fondo es el mismo en ambos procesos: la tecnología avanza más rápido que la capacidad de los reguladores para fijar reglas, dejando a empresas y usuarios operando en un terreno cambiante.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Regulación</span><span>Fuente: Noticias ONU</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg></div>
+      <div class="card-title">Corea del Sur bate récord de exportaciones gracias al boom de semiconductores para IA</div>
+    </div>
+    <div class="card-body">
+      <p>Corea del Sur registró por primera vez exportaciones mensuales superiores a los 100.000 millones de dólares, impulsadas por la demanda de chips para IA, mientras ByteDance anunció un centro de datos de 39.000 millones de dólares en Brasil.</p>
+      <p><span class="label">Por qué importa: </span>la carrera de la IA se traduce en inversión física masiva -fábricas de chips, centros de datos- que reconfigura cadenas de suministro y sitúa a países como Corea del Sur en una posición estratégica clave.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Infraestructura</span><span>Fuente: cobertura especializada en IA/economía, julio 2026</span></div>
+  </div>
+
+</div>
+
+<!-- ESPACIO -->
+<div class="section espacio" id="espacio">
+  <div class="section-title"><h2>Espacio</h2><span class="count">5 noticias</span></div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 5 5 .8-3.6 3.5.9 5.2L12 14l-4.3 2.5.9-5.2L5 7.8 10 7z"/></svg></div>
+      <div class="card-title">La NASA adjudica contratos por 600 millones de dólares para su Base Lunar</div>
+    </div>
+    <div class="card-body">
+      <p>La agencia seleccionó a Astrobotic, Firefly Aerospace e Intuitive Machines para realizar cuatro misiones a la Luna antes de finales de 2028, dentro del programa Base Lunar enmarcado en Artemis. Astrobotic recibió 297,9 millones de dólares para dos entregas; Firefly e Intuitive Machines, 144,2 y 148,3 millones respectivamente.</p>
+      <p><span class="label">Por qué importa: </span>confirma el modelo de la NASA de apoyarse en empresas privadas para construir infraestructura lunar más rápido y barato que con desarrollos propios, en una carrera donde también compiten China y otros actores privados.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Programa lunar</span><span>Fuente: NASA / El Español</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 5 5 .8-3.6 3.5.9 5.2L12 14l-4.3 2.5.9-5.2L5 7.8 10 7z"/></svg></div>
+      <div class="card-title">El róver PROMISE buscará hielo de agua para abastecer la futura base lunar</div>
+    </div>
+    <div class="card-body">
+      <p>Cada misión de Base Lunar transportará instrumentos científicos -cámaras estereoscópicas, retrorreflectores láser, monitores de radiación- y el vehículo robótico PROMISE, cuyo objetivo prioritario es localizar y cuantificar depósitos de hielo de agua en la Luna.</p>
+      <p><span class="label">Por qué importa: </span>el agua lunar es el recurso crítico para producir combustible y soporte vital in situ (ISRU), reduciendo la dependencia de suministros desde la Tierra y siendo la pieza clave para que una base lunar permanente sea viable económicamente.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Tecnología espacial</span><span>Fuente: NASA</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 5 5 .8-3.6 3.5.9 5.2L12 14l-4.3 2.5.9-5.2L5 7.8 10 7z"/></svg></div>
+      <div class="card-title">SpaceX se acerca al 13º vuelo de prueba de Starship y prepara su primer lanzamiento desde Florida</div>
+    </div>
+    <div class="card-body">
+      <p>SpaceX completó una prueba estática de seis motores para el Starship del vuelo 13 y avanza hacia su primer lanzamiento desde Cabo Cañaveral, ampliando el programa más allá de Starbase (Texas), antes de que termine 2026.</p>
+      <p><span class="label">Por qué importa: </span>la expansión geográfica reduce el riesgo de depender de una sola base de lanzamiento y acelera el ritmo de pruebas necesario si SpaceX quiere sostener sus planes de misiones a la Luna (con la NASA) y, eventualmente, a Marte.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Vuelos de prueba</span><span>Fuente: Space.com / KeepTrack</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 5 5 .8-3.6 3.5.9 5.2L12 14l-4.3 2.5.9-5.2L5 7.8 10 7z"/></svg></div>
+      <div class="card-title">Falcon 9 bate récord de reutilización con su 36º vuelo del mismo cohete</div>
+    </div>
+    <div class="card-body">
+      <p>SpaceX lanzó el 9 de julio su propulsor Falcon 9 más reutilizado hasta la fecha (36 vuelos), en apoyo de la misión Starlink 10-42, que sumó 29 satélites adicionales a la constelación de internet.</p>
+      <p><span class="label">Por qué importa: </span>cada récord de reutilización reduce el coste por lanzamiento y consolida el modelo económico que ha permitido a SpaceX dominar el mercado de lanzamientos comerciales, presionando a la baja los precios de toda la industria.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Lanzamientos</span><span>Fuente: Spaceflight Now</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 5 5 .8-3.6 3.5.9 5.2L12 14l-4.3 2.5.9-5.2L5 7.8 10 7z"/></svg></div>
+      <div class="card-title">China amplía su estación espacial Tiangong mientras un astronauta permanece un año en órbita</div>
+    </div>
+    <div class="card-body">
+      <p>La misión Shenzhou-23, con tres astronautas (incluida la primera procedente de Hong Kong), permanecerá cerca de seis meses en Tiangong desarrollando más de un centenar de proyectos científicos. China ha anunciado además la ampliación de la estación, que pasará de una estructura en "T" a una en cruz con un nuevo módulo de 20 toneladas, y uno de los tripulantes pasará un año completo en órbita como preparación para el programa de alunizaje chino.</p>
+      <p><span class="label">Por qué importa: </span>la expansión de Tiangong y las estancias prolongadas son un ensayo directo de las misiones tripuladas a la Luna que China planea para finales de la década, y refuerzan su ambición de una plataforma industrial y científica propia, independiente de la ISS.</p>
+    </div>
+    <div class="card-footer"><span class="badge">China</span><span>Fuente: Vanguardia / Infoespacial</span></div>
+  </div>
+
+</div>
+
+<!-- FINANZAS -->
+<div class="section finanzas" id="finanzas">
+  <div class="section-title"><h2>Finanzas</h2><span class="count">5 noticias · enfoque fondos indexados</span></div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
+      <div class="card-title">El S&P 500 afronta julio con la temporada de resultados como gran catalizador</div>
+    </div>
+    <div class="card-body">
+      <p>La temporada de resultados arranca con fuerza el 14 de julio, cuando JPMorgan Chase, Bank of America, Goldman Sachs y Citigroup presentan sus cuentas trimestrales, seguidos un día después por Morgan Stanley, BNY y PNC. FactSet estima un crecimiento medio de beneficios del 22% para las compañías del índice.</p>
+      <p><span class="label">Para un perfil de fondos indexados: </span>estas cifras no exigen ninguna acción -no hay que anticiparse a resultados concretos-, pero confirman que el crecimiento de beneficios agregado sigue siendo el motor de fondo que sostiene la revalorización del índice a largo plazo.</p>
+    </div>
+    <div class="card-footer"><span class="badge">S&amp;P 500</span><span>Fuente: FactSet / Yahoo Finanzas</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
+      <div class="card-title">La Reserva Federal decide sobre tipos el 28 de julio en un contexto de inflación elevada</div>
+    </div>
+    <div class="card-body">
+      <p>La mayoría de analistas espera que la Fed mantenga los tipos sin cambios el resto del año, aunque un mercado laboral sólido y una inflación algo elevada podrían reforzar el argumento a favor de una postura más restrictiva.</p>
+      <p><span class="label">Para un perfil de fondos indexados: </span>los tipos afectan sobre todo a la valoración relativa entre renta variable y renta fija; un escenario de "tipos altos por más tiempo" no cambia la estrategia de largo plazo, pero conviene tenerlo en cuenta al rebalancear la parte de renta fija de la cartera.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Política monetaria</span><span>Fuente: Invezz / Dailyforex</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
+      <div class="card-title">El S&P 500 pierde impulso por la tensión en Irán y el repunte del petróleo</div>
+    </div>
+    <div class="card-body">
+      <p>El índice ha moderado su ritmo alcista tras el recrudecimiento del conflicto entre EE.UU. e Irán y la subida del precio del petróleo, con los sectores que más subieron en la primera mitad de 2026 sufriendo ahora una rotación hacia otros más defensivos.</p>
+      <p><span class="label">Para un perfil de fondos indexados: </span>episodios como este recuerdan por qué un fondo indexado diversificado amortigua mejor estos sobresaltos que apostar por los sectores de moda: la rotación afecta a las acciones individuales, pero el índice en su conjunto absorbe el golpe con menos volatilidad.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Volatilidad</span><span>Fuente: Dailyforex / Seeking Alpha</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
+      <div class="card-title">Los fondos indexados en EE.UU. superan ya los 19 billones de dólares en activos</div>
+    </div>
+    <div class="card-body">
+      <p>La gestión pasiva sigue consolidándose como pilar de los mercados globales, con los fondos indexados estadounidenses superando los 19 billones de dólares gestionados a comienzos de 2026, y los fondos ligados al S&P 500 acumulando en el año subidas cercanas al 12,5% en euros (sin cobertura de divisa).</p>
+      <p><span class="label">Para un perfil de fondos indexados: </span>la cifra confirma que la fórmula de bajo coste, amplia diversificación y disciplina de inversión sigue ganando terreno frente a la gestión activa, precisamente el marco de referencia de esta sección.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Gestión pasiva</span><span>Fuente: Carlos Galán / Rankia</span></div>
+  </div>
+
+  <div class="card">
+    <div class="card-top">
+      <div class="card-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg></div>
+      <div class="card-title">Las comisiones por debajo del 0,10% siguen siendo la principal ventaja de los fondos indexados</div>
+    </div>
+    <div class="card-body">
+      <p>Los análisis de 2026 coinciden en que la estrategia ganadora para el inversor pasivo se apoya en tres pilares: reducción de costes, amplia diversificación (S&P 500, MSCI World y EuroStoxx 50 entre las referencias más usadas en España) y disciplina en la asignación de activos, evitando decisiones basadas en el ruido de mercado a corto plazo.</p>
+      <p><span class="label">Para un perfil de fondos indexados: </span>en un año con episodios de volatilidad geopolítica (Irán, Groenlandia, aranceles) y decisiones de bancos centrales pendientes, el mensaje de fondo no cambia: mantenerse invertido y con comisiones bajas importa más que intentar anticipar cada noticia.</p>
+    </div>
+    <div class="card-footer"><span class="badge">Estrategia</span><span>Fuente: Rankia / Mundo-finanzas</span></div>
+  </div>
+
+</div>
+
+<script>
+function showTab(name) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+  document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.id === name));
+}
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
